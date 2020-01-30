@@ -39,6 +39,11 @@ export default baseMixins.extend({
       default: 5,
       validator: (v: any) => !isNaN(parseInt(v, 10)),
     },
+    maxRows: {
+      type: [Number, String],
+      default: 5,
+      validator: (v: any) => !isNaN(parseInt(v, 10)),
+    },
   },
 
   computed: {
@@ -80,7 +85,8 @@ export default baseMixins.extend({
       const minHeight = parseInt(this.rows, 10) * parseFloat(this.rowHeight)
       // This has to be done ASAP, waiting for Vue
       // to update the DOM causes ugly layout jumping
-      input.style.height = Math.max(minHeight, height) + 'px'
+      const maxHeight = parseInt(this.maxRows, 10) * parseFloat(this.rowHeight)
+      input.style.height = Math.min(maxHeight, Math.max(minHeight, height)) + 'px'
     },
     genInput () {
       const input = VTextField.options.methods.genInput.call(this)
